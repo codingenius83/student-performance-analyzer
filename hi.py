@@ -9,9 +9,9 @@ print('STUDENT PERFORMANCE ANALYZER')
 print('='*30)
 name = input('\nwhat is the students name?')
 grade_lvl = int(input('\nwhat grade lvl is the student in?(1-12)'))
-assignment_avg = input('\nwhat is the students assignment average?')
-quiz_avg = input('\nwhat is the students quiz average?')
-test_avg = input('\nwhat is the students test average?')
+assignment_avg = int(input('\nwhat is the students assignment average?'))
+quiz_avg = int(input('\nwhat is the students quiz average?'))
+test_avg = int(input('\nwhat is the students test average?'))
 attendance_percentage = float(input('\nwhat is the students attendance percentage?'))
 missing_assignments = int(input('\nhow many missing assignments does the student have?'))
 def calculate_grade(assignment_average, quiz_average, test_average):
@@ -87,10 +87,84 @@ def check_eligibility(overall_grade, attendance, assignments_missing):
         academic_eligibility = 'NOT ELIGIBLE'
         reason = 'overall grade is too low'
     return academic_eligibility, reason
-acadmic_eligibility, reason = check_eligibility(number_grade, attendance_percentage, missing_assignments)
-
-
-
+academic_eligibility, reason = check_eligibility(number_grade, attendance_percentage, missing_assignments)
+print(f'academic eligibility: {academic_eligibility}\nreason: {reason}')
+def check_high_honors(overall_grade, attendance, missing_assignments):
+    high_honors = ''
+    reason = ''
+    if overall_grade >= 90:
+        if attendance >= 95:
+            if missing_assignments == 0:
+                high_honors = 'YES'
+                reason = 'meet all requirements'
+            else:
+                high_honors = 'NO'
+                reason = 'student has missing assignments'
+        else:
+            high_honors = 'NO'
+            reason = 'attendance requirement not met'
+    else:
+        high_honors = 'NO'
+        reason = 'grade requirement not met'
+    return high_honors, reason
+def check_good_standing(overall_grade, attendance):
+    good_standing = ''
+    if overall_grade >= 70 and  attendance >= 90:
+        good_standing = 'YES'
+    else:
+        good_standing = 'NO'
+    return good_standing
+def check_support(overall_grade, attendance):
+    additional_support = ''
+    if overall_grade < 70 or attendance < 80:
+        additional_support = 'recommended'
+    else:
+        additional_support = 'not needed'
+    return additional_support
+print('\n\n\n')
+username = input('enter username: ')
+pin = input('enter pin: ')
+if username == 'students':
+    if pin == '1234':
+        print('login successful')
+    else:
+        print('login failed: inncorrect pin')
+else:
+    print('login failed: inncorrect username') 
+def grade_level_message(grade_level):
+    if grade_level == 9:
+        return 'welcome to your freshmen year'
+    elif grade_level == 10:
+        return 'keep building your skills'
+    elif grade_level == 11:
+        return 'keep pushing'
+    elif grade_level == 12:
+        return 'finish strong'
+    else:
+        return 'invalid grade level'
+def strongest_category(assignment_average, quiz_average, test_average):
+    strongest_category = ''
+    if assignment_average > quiz_average > test_average or assignment_average > test_average > quiz_average:
+        strongest_category = 'assignments'
+    elif quiz_average > assignment_average > test_average or quiz_average > test_average > assignment_average:
+        strongest_category = 'quizzes'
+    elif test_average > assignment_average > quiz_average or test_average > quiz_average > assignment_average:
+        strongest_category = 'tests'
+    else:
+        if assignment_average == quiz_average == test_average:
+            strongest_category = 'all the same'
+        elif assignment_average > quiz_average and assignment_average == test_average:
+            strongest_category = 'assignments and tests'
+        elif assignment_average > test_average and assignment_average == quiz_average:
+            strongest_category = 'assignments and quizzes'
+        elif quiz_average > assignment_average and quiz_average == test_average:
+            strongest_category = 'quizzes and tests'
+    return strongest_category
+print('\n\n\n', '='*25, '\nstudent summary\n', '='*25)
+print(f'\n\nstudent: {name}\ngrade level: {grade_lvl}')
+print(f'\n\nassignment average: {assignment_avg}\nquiz average: {quiz_avg}\ntest average: {test_avg}')
+print(f'\n\noverall grade: {number_grade}\nattendance: {attendance_percentage}\nmissing assignments: {missing_assignments}')
+print('\n\n', '='*25)
 
         
         
