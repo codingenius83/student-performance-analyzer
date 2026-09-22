@@ -7,6 +7,7 @@ student performance analyzer
 print('='*30)
 print('STUDENT PERFORMANCE ANALYZER')
 print('='*30)
+#user inputs name and neccessary grade stuff
 name = input('\nwhat is the students name?')
 grade_lvl = int(input('\nwhat grade lvl is the student in?(9-12)'))
 assignment_avg = int(input('\nwhat is the students assignment average?'))
@@ -14,14 +15,16 @@ quiz_avg = int(input('\nwhat is the students quiz average?'))
 test_avg = int(input('\nwhat is the students test average?'))
 attendance_percentage = float(input('\nwhat is the students attendance percentage?'))
 missing_assignments = int(input('\nhow many missing assignments does the student have?'))
+#function that gives your number grade
 def calculate_grade(assignment_average, quiz_average, test_average):
     assignments_w = 3/10
     quizzes_w = 3/10
     tests_w = 2/5
     overall_grade = assignment_average * assignments_w + quiz_average * quizzes_w + test_average * tests_w
     return overall_grade
+#save it as var
 number_grade = calculate_grade(assignment_avg, quiz_avg, test_avg)
-print(number_grade)
+#takes the var and turns it into a letter
 def letter_grader(num_grade):
     letter_grad = ''
     if num_grade <= 0:
@@ -37,8 +40,7 @@ def letter_grader(num_grade):
     else:
         letter_grad = 'A'
     return letter_grad
-letter_grade = letter_grader(number_grade)
-print(letter_grade)
+#tells you if your attendance is bad or good
 def attendance_status_checker(attendance):
     status = ''
     if attendance <= 0:
@@ -52,8 +54,7 @@ def attendance_status_checker(attendance):
     else:
         status = 'excellent attendance'
     return status
-attendance_status = attendance_status_checker(attendance_percentage)
-print(attendance_status)
+#tells you if your missing assignments is healthy or no
 def assignment_status_checker(missing_assigns):
     status = ''
     if missing_assigns <= 0:
@@ -67,8 +68,7 @@ def assignment_status_checker(missing_assigns):
     else:
         status = 'critical'
     return status
-assignment_status = assignment_status_checker(missing_assignments)
-print(assignment_status)
+#check if your eligible
 def check_eligibility(overall_grade, attendance, assignments_missing):
     academic_eligibility = ''
     reason = ''
@@ -87,8 +87,7 @@ def check_eligibility(overall_grade, attendance, assignments_missing):
         academic_eligibility = 'NOT ELIGIBLE'
         reason = 'overall grade is too low'
     return academic_eligibility, reason
-academic_eligibility, reason = check_eligibility(number_grade, attendance_percentage, missing_assignments)
-print(f'academic eligibility: {academic_eligibility}\nreason: {reason}')
+#check if you can go high honors
 def check_high_honors(overall_grade, attendance, missing_assignments):
     high_honors = ''
     reason = ''
@@ -107,6 +106,7 @@ def check_high_honors(overall_grade, attendance, missing_assignments):
         high_honors = 'NO'
         reason = 'grade requirement not met'
     return high_honors, reason
+#check if you got good standing
 def check_good_standing(overall_grade, attendance):
     good_standing = ''
     if overall_grade >= 70 and  attendance >= 90:
@@ -114,6 +114,7 @@ def check_good_standing(overall_grade, attendance):
     else:
         good_standing = 'NO'
     return good_standing
+#check if you need support or nah
 def check_support(overall_grade, attendance):
     additional_support = ''
     if overall_grade < 70 or attendance < 80:
@@ -122,15 +123,17 @@ def check_support(overall_grade, attendance):
         additional_support = 'not needed'
     return additional_support
 print('\n\n\n')
+#makes you login
 username = input('enter username: ')
 pin = input('enter pin: ')
-if username == 'students':
+if username == 'student':
     if pin == '1234':
         print('login successful')
     else:
         print('login failed: inncorrect pin')
 else:
     print('login failed: inncorrect username') 
+#gives you a personalized message based on what grade u are in
 def grade_level_message(grade_level):
     if grade_level == 9:
         return 'welcome to your freshmen year'
@@ -142,6 +145,7 @@ def grade_level_message(grade_level):
         return 'finish strong'
     else:
         return 'invalid grade level'
+#tells you your strongest category
 def strongest_category(assignment_average, quiz_average, test_average):
     strongest_category = ''
     if assignment_average > quiz_average > test_average or assignment_average > test_average > quiz_average:
@@ -160,12 +164,16 @@ def strongest_category(assignment_average, quiz_average, test_average):
         elif quiz_average > assignment_average and quiz_average == test_average:
             strongest_category = 'quizzes and tests'
     return strongest_category
-print('\n\n\n', '='*25, '\nstudent summary\n', '='*25)
-print(f'\n\nstudent: {name}\ngrade level: {grade_lvl}')
-print(f'\n\nassignment average: {assignment_avg}\nquiz average: {quiz_avg}\ntest average: {test_avg}')
-print(f'\n\noverall grade: {number_grade}\nattendance: {attendance_percentage}\nmissing assignments: {missing_assignments}')
-print('\n\n', '='*25)
-
-        
-        
-
+#call some of the functions
+academic_eligibility, reason1 = check_eligibility(number_grade,attendance_percentage,missing_assignments)
+high_honors, reason2 = check_high_honors(number_grade,attendance_percentage,missing_assignments)
+good_standing = check_good_standing(number_grade,attendance_percentage)
+#print it all formatted good
+print('\n\n', '='*25, '\nstudent summary\n', '='*25)
+print(f'\nstudent: {name}\ngrade level: {grade_lvl}')
+print(f'\nassignment average: {assignment_avg}\nquiz average: {quiz_avg}\ntest average: {test_avg}\nstrongest category: {strongest_category(assignment_avg,quiz_avg,test_avg)}')
+print(f'\noverall grade: {number_grade} {letter_grader(number_grade)}\nattendance: {attendance_percentage}   status: {attendance_status_checker(attendance_percentage)}\nmissing assignments: {missing_assignments}  status: {assignment_status_checker(missing_assignments)}')
+print(f'\nacademic eligibility: {academic_eligibility}  reason: {reason1}\nhigh honors: {high_honors}   reason: {reason2}\ngood standing: {good_standing}\nsupport: {check_support(number_grade,attendance_percentage,)}\n')
+print(grade_level_message(grade_lvl) + '!')
+print('\n', '='*25)
+#boom
